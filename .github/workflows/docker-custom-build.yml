@@ -19,7 +19,7 @@ jobs:
           build-args: |
             OMNIROUTE_BUILD_WORKERS=1
             OMNIROUTE_USE_TURBOPACK=0
-            OMNIROUTE_BUILD_MEMORY_MB=5000
+            OMNIROUTE_BUILD_MEMORY_MB=6144
       - uses: actions/upload-artifact@v4
         with:
           name: omniroute-custom-patched-tar
