@@ -1,0 +1,26 @@
+name: docker-custom-build
+on:
+  push:
+    branches: [main, master, build]
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - name: Build image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: false
+          tags: omniroute:custom-patched
+          outputs: type=docker,dest=/tmp/omniroute-custom-patched.tar
+          build-args: |
+            OMNIROUTE_BUILD_WORKERS=2
+      - uses: actions/upload-artifact@v4
+        with:
+          name: omniroute-custom-patched-tar
+          path: /tmp/omniroute-custom-patched.tar
+          compression-level: 0
+          retention-days: 3
