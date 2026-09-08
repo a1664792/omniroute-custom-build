@@ -72,6 +72,7 @@ interface ProviderConnectionLike {
 }
 
 const PROVIDER_LIMITS_APIKEY_PROVIDERS = new Set([
+  "autoclaw",
   "glm",
   "glm-cn",
   "zai",
