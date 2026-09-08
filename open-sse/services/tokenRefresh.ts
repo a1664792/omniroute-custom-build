@@ -394,6 +394,9 @@ async function _getAccessTokenInternal(provider, credentials, log, proxyConfig: 
     case "openference":
       return await refreshOpenferenceToken(credentials.refreshToken, log, proxyConfig);
 
+    case "qoder":
+      return await refreshQoderToken(credentials.refreshToken, log, proxyConfig);
+
     case "autoclaw":
       return await refreshAutoClawToken(
         credentials.refreshToken,
@@ -401,9 +404,6 @@ async function _getAccessTokenInternal(provider, credentials, log, proxyConfig: 
         log,
         proxyConfig
       );
-
-    case "qoder":
-      return await refreshQoderToken(credentials.refreshToken, log, proxyConfig);
 
     case "github":
       return await refreshGitHubToken(credentials.refreshToken, log, proxyConfig);
