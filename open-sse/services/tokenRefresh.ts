@@ -758,13 +758,6 @@ export function formatProviderCredentials(provider, credentials, log) {
       };
 
     case "codex":
-    case "autoclaw":
-      return await refreshAutoClawToken(
-        credentials.refreshToken,
-        credentials.providerSpecificData,
-        log,
-        proxyConfig
-      );
 
     case "qoder":
     case "openai":
