@@ -483,6 +483,7 @@ export const ID_TO_ALIAS = new Proxy({} as Record<string, string>, {
 
 // Providers that support usage/quota API
 export const USAGE_SUPPORTED_PROVIDERS = [
+  "autoclaw",
   "openai-compatible-chat-9c0c9760-ff23-443f-81bc-d85562fb97c2",
   "antigravity",
   "agy",

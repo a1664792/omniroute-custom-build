@@ -75,6 +75,7 @@ import { getConolUsage } from "./conolUsage.ts";
 import { isOpenAICompatibleProvider, isAnthropicCompatibleProvider } from "@/shared/constants/providers";
 import { getAgentrouterUsage } from "./usage/agentrouter.ts";
 import { getOpenAICompatibleUsage } from "./usage/openaiCompatible.ts";
+import { getAutoClawWallet } from "./usage/autoclawWallet.ts";
 
 type JsonRecord = Record<string, unknown>;
 type UsageProviderConnection = JsonRecord & {
@@ -256,6 +257,9 @@ export async function getUsageForProvider(
     case "conol-web":
     case "cnl":
       return await getConolUsage(apiKey || accessToken, providerSpecificData);
+    case "autoclaw":
+      return await getAutoClawWallet(accessToken || apiKey || "", providerSpecificData || {});
+
     case "agentrouter":
       return await getAgentrouterUsage(id, connection);
     default: {
