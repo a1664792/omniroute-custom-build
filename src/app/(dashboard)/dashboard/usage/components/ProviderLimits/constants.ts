@@ -1,4 +1,5 @@
 export const PROVIDER_LABEL: Record<string, string> = {
+  "openai-compatible-chat-9c0c9760-ff23-443f-81bc-d85562fb97c2": "Trae CN Credits",
   antigravity: "Antigravity",
   github: "GitHub Copilot",
   kiro: "Kiro AI",
@@ -21,6 +22,7 @@ export const PROVIDER_LABEL: Record<string, string> = {
 };
 
 export const PROVIDER_ORDER: Record<string, number> = {
+  "openai-compatible-chat-9c0c9760-ff23-443f-81bc-d85562fb97c2": 2.5,
   antigravity: 1,
   github: 3,
   codex: 4,

@@ -52,8 +52,7 @@ export async function getAutoClawWallet(
   // Dashboard usage shape: single unlimited-window "积分余额" entry (agentrouter pattern)
   const balanceQuota = {
     used: 0,
-    total: 0,
-    remaining: total,
+    total,
     remainingPercentage: total > 0 ? 100 : 0,
     resetAt: null,
     unlimited: true,

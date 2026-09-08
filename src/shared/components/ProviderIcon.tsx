@@ -315,6 +315,7 @@ const PROVIDER_ICON_ALIASES: Record<string, string> = {
   "opencode-go": "opencode",
   "opencode-zen": "opencode",
   "poe-web": "poe",
+  "openai-compatible-chat-9c0c9760-ff23-443f-81bc-d85562fb97c2": "trae",
 };
 
 const ProviderIcon = memo(function ProviderIcon({
