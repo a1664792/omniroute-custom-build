@@ -17,10 +17,17 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - uses: docker/build-push-action@v6
+      - name: Build and push (tee log)
+        run: |
+          set -o pipefail
+          docker buildx build \
+            --build-arg OMNIROUTE_BUILD_WORKERS=1 \
+            --push \
+            -t ghcr.io/a1664792/omniroute-custom:v3.8.50-patched \
+            . 2>&1 | tee build.log
+      - uses: actions/upload-artifact@v4
+        if: always()
         with:
-          context: .
-          push: true
-          tags: ghcr.io/a1664792/omniroute-custom:v3.8.50-patched
-          build-args: |
-            OMNIROUTE_BUILD_WORKERS=1
+          name: build-log
+          path: build.log
+          retention-days: 1
