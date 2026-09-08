@@ -51,6 +51,7 @@ import { refreshCodexToken } from "./tokenRefresh/providers/codex.ts";
 import { refreshCursorToken } from "./tokenRefresh/providers/cursor.ts";
 import { refreshOpenferenceToken } from "./tokenRefresh/providers/openference.ts";
 import { refreshKiroToken } from "./tokenRefresh/providers/kiro.ts";
+import { refreshAutoClawToken } from "./tokenRefresh/providers/autoclaw.ts";
 import { refreshQoderToken } from "./tokenRefresh/providers/qoder.ts";
 import { refreshGitHubToken } from "./tokenRefresh/providers/github.ts";
 import { refreshCopilotToken } from "./tokenRefresh/providers/copilot.ts";
@@ -392,6 +393,14 @@ async function _getAccessTokenInternal(provider, credentials, log, proxyConfig: 
 
     case "openference":
       return await refreshOpenferenceToken(credentials.refreshToken, log, proxyConfig);
+
+    case "autoclaw":
+      return await refreshAutoClawToken(
+        credentials.refreshToken,
+        credentials.providerSpecificData,
+        log,
+        proxyConfig
+      );
 
     case "qoder":
       return await refreshQoderToken(credentials.refreshToken, log, proxyConfig);
@@ -749,6 +758,14 @@ export function formatProviderCredentials(provider, credentials, log) {
       };
 
     case "codex":
+    case "autoclaw":
+      return await refreshAutoClawToken(
+        credentials.refreshToken,
+        credentials.providerSpecificData,
+        log,
+        proxyConfig
+      );
+
     case "qoder":
     case "openai":
     case "openrouter":

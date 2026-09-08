@@ -6,6 +6,7 @@ import { GithubExecutor } from "./github.ts";
 import { GheCopilotExecutor } from "./ghe-copilot.ts";
 import { QoderExecutor } from "./qoder.ts";
 import { KiroExecutor } from "./kiro.ts";
+import { AutoclawExecutor } from "./autoclaw.ts";
 import { CodexExecutor } from "./codex.ts";
 import { CodexAppServerExecutor } from "./codex-app-server.ts";
 import { CursorExecutor } from "./cursor.ts";
@@ -95,6 +96,7 @@ const executors = {
   "ghe-copilot": new GheCopilotExecutor(),
   qoder: new QoderExecutor(),
   kiro: new KiroExecutor(),
+  autoclaw: new AutoclawExecutor(),
   "amazon-q": new KiroExecutor("amazon-q"),
   bedrock: new BedrockExecutor(),
   codex: new CodexExecutor(),
@@ -299,6 +301,7 @@ export { AntigravityExecutor } from "./antigravity.ts";
 export { GithubExecutor } from "./github.ts";
 export { QoderExecutor } from "./qoder.ts";
 export { KiroExecutor } from "./kiro.ts";
+export { AutoclawExecutor } from "./autoclaw.ts";
 export { CodexExecutor } from "./codex.ts";
 export { CursorExecutor } from "./cursor.ts";
 export { TraeExecutor } from "./trae.ts";
