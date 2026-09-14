@@ -25,7 +25,7 @@ jobs:
             --push \
             -t ghcr.io/a1664792/omniroute-custom:v3.8.50-patched \
             . 2>&1 | tee build.log
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: build-log
