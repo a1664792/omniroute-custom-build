@@ -117,8 +117,7 @@ RUN --mount=type=cache,id=s/92ca8a61-c1ba-421f-a389-d48ac7258c2d-npm-cache,targe
       && node /usr/local/lib/node_modules/npm/node_modules/node-gyp/bin/node-gyp.js rebuild --force_build=1) \
   && test -f node_modules/better-sqlite3/build/Release/better_sqlite3.node \
   && node -e "require('better-sqlite3')(':memory:').close()" \
-  && node -e "const wreq=require('wreq-js'); if(typeof wreq.createTransport!=='function') process.exit(1)"
-  && node node_modules/tls-client-node/scripts/postinstall.js \
+  && node -e "const wreq=require('wreq-js'); if(typeof wreq.createTransport!=='function') process.exit(1)"   && node node_modules/tls-client-node/scripts/postinstall.js \
   && (test -n "$(find node_modules/tls-client-node/bin -mindepth 1 -print -quit 2>/dev/null)" \
       || (mkdir -p node_modules/tls-client-node/bin && cp /tmp/tls-preseed/*.so node_modules/tls-client-node/bin/))
 
