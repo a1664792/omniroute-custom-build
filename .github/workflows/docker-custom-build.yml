@@ -22,6 +22,8 @@ jobs:
           set -o pipefail
           docker buildx build \
             --build-arg OMNIROUTE_BUILD_WORKERS=1 \
+            --build-arg OMNIROUTE_USE_TURBOPACK=0 \
+            --build-arg OMNIROUTE_BUILD_MEMORY_MB=12288 \
             --push \
             -t ghcr.io/a1664792/omniroute-custom:v3.8.51-patched \
             . 2>&1 | tee build.log
