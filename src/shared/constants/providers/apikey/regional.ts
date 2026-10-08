@@ -425,6 +425,7 @@ export const APIKEY_PROVIDERS_REGIONAL = {
   },
   autoclaw: {
     id: "autoclaw",
+    serviceKinds: ["llm"],
     alias: "autoclaw",
     name: "AutoClaw",
     icon: "smart_toy",
