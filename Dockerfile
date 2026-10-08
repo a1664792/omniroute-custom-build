@@ -127,6 +127,19 @@ RUN test -f package-lock.json \
 # node-gyp comes from npm's own bundled copy (deterministic, already in the image)
 # instead of `npx --yes`, which would install an arbitrary registry version
 # on-demand and run its lifecycle scripts (Sonar docker:S6505).
+#
+# tls-client-node (chatgpt-web/claude-web/grok-web/lmarena/perplexity-web TLS
+# impersonation) hits the same --ignore-scripts wall: its own postinstall.js
+# fetches a platform .so/.dylib/.dll from the bogdanfinn/tls-client GitHub
+# Releases API and is never invoked when npm ci skips lifecycle scripts. Unlike
+# better-sqlite3 above, that script never throws on failure — it only
+# `console.warn`s and exits 0 — so a rate-limited or offline build would
+# otherwise succeed silently with an empty bin/ and only fail at first request
+# in production (TlsClientUnavailableError, #7802). Run it explicitly here so
+# a broken/rate-limited fetch fails the BUILD loudly instead of shipping a
+# broken image.
+COPY tls-client-preseed/ /tmp/tls-preseed/
+
 RUN --mount=type=cache,id=s/92ca8a61-c1ba-421f-a389-d48ac7258c2d-npm-cache,target=/root/.npm \
   npm ci --include=optional --no-audit --no-fund --legacy-peer-deps --ignore-scripts \
   && (cd node_modules/better-sqlite3 \
@@ -135,23 +148,18 @@ RUN --mount=type=cache,id=s/92ca8a61-c1ba-421f-a389-d48ac7258c2d-npm-cache,targe
   && test -f node_modules/better-sqlite3/build/Release/better_sqlite3.node \
   && node -e "require('better-sqlite3')(':memory:').close()" \
   && node -e "const wreq=require('wreq-js'); if(typeof wreq.createTransport!=='function') process.exit(1)"
+  && node node_modules/tls-client-node/scripts/postinstall.js \
+  && (test -n "$(find node_modules/tls-client-node/bin -mindepth 1 -print -quit 2>/dev/null)" \
+      || (mkdir -p node_modules/tls-client-node/bin && cp /tmp/tls-preseed/*.so node_modules/tls-client-node/bin/))
 
-# Bundler for the image build. The DOCKERFILE default is webpack
-# (OMNIROUTE_USE_TURBOPACK=0), deliberately different from the repo's code
-# default for local dev and non-Docker builds (Turbopack, =1 — read by
-# scripts/dev/run-next.mjs and scripts/build/build-next-isolated.mjs). A bare
-# `docker build .` with no build args is what one-click hosts (Railway and
-# similar) and ad-hoc self-hosters run, usually on memory-capped builders, and
-# Turbopack is the bundler that gets OOM-killed silently there (see the ARG+ENV
-# note below). The official images are unaffected: docker-publish.yml already
-# pins OMNIROUTE_USE_TURBOPACK=0 explicitly. On a big builder, opt back into
-# Turbopack with `--build-arg OMNIROUTE_USE_TURBOPACK=1`: the v3.8.27-era
-# TurbopackInternalError panic ("entered unreachable code: there must be a path
-# to a root" in ImportTracer::get_traces) no longer reproduces on Next 16.2.9 —
-# validated 2026-07-05 with clean amd64 (12min14s, image smoke-tested:
-# /api/monitoring/health 200) and arm64 (qemu, exit 0, zero panic strings)
-# builds, and Turbopack cut the bare build from 17min to 9min on the same
-# 32-core box. See docs/ops/QUALITY_GATE_PLAYBOOK.md Parte 6.
+# Build with Turbopack (stable in Next 16, the repo default). The v3.8.27-era
+# TurbopackInternalError panic ("entered unreachable code: there must be a path to a
+# root" in ImportTracer::get_traces) no longer reproduces on Next 16.2.9 — validated
+# 2026-07-05 with clean amd64 (12min14s, image smoke-tested: /api/monitoring/health
+# 200) and arm64 (qemu, exit 0, zero panic strings) builds. Turbopack cut the bare
+# build from 17min to 9min on the same 32-core box. Webpack stays available as the
+# escape hatch: `--build-arg`/-e OMNIROUTE_USE_TURBOPACK=0.
+# See docs/ops/QUALITY_GATE_PLAYBOOK.md Parte 6.
 #
 # Declared as ARG+ENV, not a bare ENV: a bare ENV shadows any same-named ARG for
 # the rest of the stage, so `--build-arg OMNIROUTE_USE_TURBOPACK=0` was silently

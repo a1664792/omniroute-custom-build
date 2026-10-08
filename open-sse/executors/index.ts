@@ -33,6 +33,7 @@ const lazyExecutors: Record<string, () => Promise<BaseExecutor>> = {
   "ghe-copilot": () => import("./ghe-copilot.ts").then((m) => new m.GheCopilotExecutor()),
   qoder: () => import("./qoder.ts").then((m) => new m.QoderExecutor()),
   kiro: () => import("./kiro.ts").then((m) => new m.KiroExecutor()),
+  autoclaw: () => import("./autoclaw.ts").then((m) => new m.AutoclawExecutor()),
   "amazon-q": () => import("./kiro.ts").then((m) => new m.KiroExecutor("amazon-q")),
   bedrock: () => import("./bedrock.ts").then((m) => new m.BedrockExecutor()),
   codex: () => import("./codex.ts").then((m) => new m.CodexExecutor()),
