@@ -34,6 +34,7 @@ const lazyExecutors: Record<string, () => Promise<BaseExecutor>> = {
   qoder: () => import("./qoder.ts").then((m) => new m.QoderExecutor()),
   kiro: () => import("./kiro.ts").then((m) => new m.KiroExecutor()),
   autoclaw: () => import("./autoclaw.ts").then((m) => new m.AutoclawExecutor()),
+  "workbuddy-intl": () => import("./workbuddy-intl.ts").then((m) => new m.WorkBuddyIntlExecutor()),
   "amazon-q": () => import("./kiro.ts").then((m) => new m.KiroExecutor("amazon-q")),
   bedrock: () => import("./bedrock.ts").then((m) => new m.BedrockExecutor()),
   codex: () => import("./codex.ts").then((m) => new m.CodexExecutor()),
