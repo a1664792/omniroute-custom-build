@@ -19,6 +19,8 @@
 
 // Providers that support usage/quota API
 export const USAGE_SUPPORTED_PROVIDERS: readonly string[] = [
+  // custom: native AutoClaw provider (wallet/points fetcher)
+  "autoclaw",
   "antigravity",
   "agy",
   "kiro",
