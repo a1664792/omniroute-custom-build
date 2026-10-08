@@ -420,6 +420,21 @@ export const APIKEY_PROVIDERS_REGIONAL = {
     passthroughModels: false,
     authHint: "Tokens come from the AutoClaw desktop client (auto-refreshed)",
   },
+  "workbuddy-intl": {
+    id: "workbuddy-intl",
+    serviceKinds: ["llm"],
+    alias: "wbi",
+    name: "WorkBuddy 国际版",
+    icon: "smart_toy",
+    color: "#0F766E",
+    textIcon: "WB",
+    website: "https://www.workbuddy.ai",
+    hasFree: true,
+    freeNote: "Uses the international WorkBuddy AI desktop client's own quota.",
+    passthroughModels: false,
+    authHint:
+      "Paste the WorkBuddy 国际版 client access token (WorkPet can export it). The endpoint requires the client identity headers; a missing system-first message or header answers 403/400.",
+  },
   sensenova: {
     id: "sensenova",
     serviceKinds: ["llm"],
